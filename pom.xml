@@ -5,15 +5,40 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.cocowwy</groupId>
-    <artifactId>suona</artifactId>
+    <artifactId>suona-all</artifactId>
     <version>${suona.version}</version>
 
     <modules>
-
+        <module>suona</module>
+        <module>suona-test</module>
     </modules>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cn.cocowwy</groupId>
+                <artifactId>suona</artifactId>
+                <version>${suona.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cocowwy</groupId>
+                <artifactId>suona-test</artifactId>
+                <version>${suona.version}</version>
+            </dependency>
+
+            <!--version-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <packaging>pom</packaging>
-    <name>suona</name>
+    <name>suona-all</name>
     <url>https://github.com/Cocowwy/suona</url>
     <description>suona easy to call all methods in cluster on cloud server</description>
 
@@ -72,9 +97,6 @@
             <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
         </repository>
     </distributionManagement>
-
-    <dependencyManagement>
-    </dependencyManagement>
 
     <build>
         <plugins>
