@@ -9,7 +9,6 @@
     </parent>
 
     <artifactId>suona</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>suona</name>
     <description>suona 一个去中心化的集群方法同步执行框架</description>
 

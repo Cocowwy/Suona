@@ -9,7 +9,6 @@
     </parent>
 
     <artifactId>suona-test</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>suona-test</name>
     <description>suona </description>
 
