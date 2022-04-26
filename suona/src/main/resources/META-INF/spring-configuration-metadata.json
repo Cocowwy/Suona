@@ -1,0 +1,23 @@
+{
+  "groups": [
+    {
+      "name": "Suona",
+      "type": "cn.cocowwy.suona.autoconfiguration.SuonaProperties",
+      "sourceType": "cn.cocowwy.suona.autoconfiguration.SuonaProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "suona.enable",
+      "type": "java.lang.Boolean",
+      "description": "Whether to use suona",
+      "defaultValue": true
+    },
+    {
+      "name": "showdb.mode",
+      "type": "java.lang.String",
+      "description": "set default mode",
+      "defaultValue": "BROADCAST"
+    }
+  ]
+}
