@@ -10,10 +10,6 @@ public enum SpreadEnum {
      */
     BROADCAST,
     /**
-     * 集群内随机发送
-     */
-    RANDOM,
-    /**
      * 不进行调用
      */
     NONE
