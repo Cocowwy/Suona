@@ -20,7 +20,7 @@ public class SuonaHelp {
      * 服务名@全限定类名@方法名
      * @return
      */
-    public String buildName(String className, String methodName) {
+    public String buildSuonaName(String className, String methodName) {
         return String.format("%s@%s@%s", serverName, className, methodName);
     }
 }
