@@ -18,6 +18,7 @@ public class ServiceA {
     @Suona
     public void sayA() throws Exception {
         System.out.println("test1 ServiceA sayA");
+        // 死循环  测试反射调用之后是否会走AOP  结果是会 导致死循环
         SuonaExecutor.execute("SuonaTest@serviceA@sayA");
     }
 
