@@ -5,7 +5,11 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * 对 Suona 标注的方法进行代理，执行集群方法的同步
@@ -15,6 +19,9 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class SuonaAwareAspect {
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
     @Pointcut("@annotation(cn.cocowwy.suona.annotation.Suona)")
     private void pointcut4Suona() {
     }
@@ -36,7 +43,8 @@ public class SuonaAwareAspect {
     // 考虑 携带一个全局标识ID 如果ID相同则直接返回并return  或则判断走controller进来的请求直接不走这个AOP
     @Around("pointcut4Suona()&&@annotation(suona)")
     public Object around(ProceedingJoinPoint point, Suona suona) throws Throwable {
-        point.proceed();
+        List<String> services = discoveryClient.getServices();
+        System.out.println("Aop Before");
         return point.proceed();
     }
 }

@@ -27,6 +27,13 @@
             <artifactId>suona</artifactId>
         </dependency>
 
+        <!--retry源码分析-->
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+            <version>1.2.2.RELEASE</version>
+        </dependency>
+
         <!--cloud依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

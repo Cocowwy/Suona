@@ -4,7 +4,7 @@ package cn.cocowwy.handler;
  * @author Cocowwy
  * @create 2022-04-04-22:32
  */
-public abstract class IJobHandler {
+public abstract class IMethodHandler {
     /**
      * 调度 执行
      *
