@@ -8,6 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.ApplicationContext;
@@ -27,12 +28,13 @@ import java.util.Map;
 @EnableConfigurationProperties({SuonaProperties.class})
 @ComponentScan("cn.cocowwy.suona.component.*")
 @ConditionalOnClass(DiscoveryClient.class)
+@ConditionalOnProperty(name = "suona.enable", havingValue = "true")
 public class SuonaAutoConfiguration implements SmartInitializingSingleton {
     private static final Log logger = LogFactory.getLog(SuonaAutoConfiguration.class);
     private final ApplicationContext applicationContext;
     private final SuonaHelp suonaHelp;
 
-    public SuonaAutoConfiguration(ApplicationContext applicationContext, SuonaProperties suonaProperties, SuonaHelp suonaHelp) {
+    public SuonaAutoConfiguration(ApplicationContext applicationContext, SuonaHelp suonaHelp) {
         this.applicationContext = applicationContext;
         this.suonaHelp = suonaHelp;
         try {
