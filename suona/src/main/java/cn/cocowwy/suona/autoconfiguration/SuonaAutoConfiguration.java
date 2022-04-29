@@ -1,9 +1,9 @@
 package cn.cocowwy.suona.autoconfiguration;
 
-import cn.cocowwy.handler.SuonaMethodWrapper;
 import cn.cocowwy.suona.annotation.Suona;
-import cn.cocowwy.suona.component.SuonaExecutor;
+import cn.cocowwy.suona.handler.SuonaExecutor;
 import cn.cocowwy.suona.component.SuonaHelp;
+import cn.cocowwy.suona.handler.SuonaMethodWrapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.SmartInitializingSingleton;
@@ -25,7 +25,7 @@ import java.util.Map;
  * @create 2022-04-04-17:10
  */
 @EnableConfigurationProperties({SuonaProperties.class})
-@ComponentScan("cn.cocowwy.suona.component")
+@ComponentScan("cn.cocowwy.suona.component.*")
 @ConditionalOnClass(DiscoveryClient.class)
 public class SuonaAutoConfiguration implements SmartInitializingSingleton {
     private static final Log logger = LogFactory.getLog(SuonaAutoConfiguration.class);

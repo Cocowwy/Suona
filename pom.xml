@@ -10,7 +10,8 @@
 
     <modules>
         <module>suona</module>
-        <module>suona-test</module>
+        <module>suona-test/suona-test-server1</module>
+        <module>suona-test/suona-test-server2</module>
     </modules>
 
     <dependencyManagement>
@@ -20,9 +21,16 @@
                 <artifactId>suona</artifactId>
                 <version>${suona.version}</version>
             </dependency>
+
+            <!--TEST-->
             <dependency>
                 <groupId>cn.cocowwy</groupId>
-                <artifactId>suona-test</artifactId>
+                <artifactId>suona-test-server1</artifactId>
+                <version>${suona.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cocowwy</groupId>
+                <artifactId>suona-test-server2</artifactId>
                 <version>${suona.version}</version>
             </dependency>
 

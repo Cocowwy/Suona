@@ -1,12 +1,13 @@
 package cn.cocowwy.suona.component;
 
 import cn.cocowwy.suona.annotation.Suona;
+import cn.cocowwy.suona.component.communication.SuonaClient;
+import cn.cocowwy.suona.context.SuonaContextHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
 @Component
 public class SuonaAwareAspect {
     @Autowired
-    private DiscoveryClient discoveryClient;
+    private SuonaClient suonaClient;
 
     @Pointcut("@annotation(cn.cocowwy.suona.annotation.Suona)")
     private void pointcut4Suona() {
@@ -34,17 +35,16 @@ public class SuonaAwareAspect {
      * @return
      * @throws Throwable
      */
-    //TODO
-//      方法执行的时候，
-//      但是存在一个情况：
-//      A 调用触发的时候 B ，C 节点同时触发，但是此时 B ，C
-//     的该方法都同时触发到了，此时也会走AOP 代理   就会形成网状的循环
-//     得考虑一下 如何防止这种情况的发生
-    // 考虑 携带一个全局标识ID 如果ID相同则直接返回并return  或则判断走controller进来的请求直接不走这个AOP
     @Around("pointcut4Suona()&&@annotation(suona)")
     public Object around(ProceedingJoinPoint point, Suona suona) throws Throwable {
-        List<String> services = discoveryClient.getServices();
-        System.out.println("Aop Before");
-        return point.proceed();
+        // skip
+        if (!SuonaContextHolder.call()) {
+            return null;
+        }
+
+        Object proceed = point.proceed();
+        suonaClient.callOthers(suona);
+
+        return proceed;
     }
 }
