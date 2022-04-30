@@ -10,10 +10,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 /**
- * 对 Suona 标注的方法进行代理，执行集群方法的同步
+ * 用于感知被Suona标注的方法的调用，执行集群方法的同步
  * @author cocowwy.cn
  * @create 2022-04-04-9:48
  */
