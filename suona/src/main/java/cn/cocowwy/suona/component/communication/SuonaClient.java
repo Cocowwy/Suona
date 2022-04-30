@@ -40,5 +40,8 @@ public class SuonaClient {
 
         new CallMethods(name, serverName);
         // todo HTTP
+
+
+        // todo  log success info
     }
 }

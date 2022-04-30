@@ -1,4 +1,4 @@
-package cn.cocowwy.suonatest.test1;
+package cn.cocowwy.suonatestserver1.test1;
 
 import cn.cocowwy.suona.annotation.Suona;
 import cn.cocowwy.suona.handler.SuonaExecutor;
