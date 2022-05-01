@@ -42,5 +42,12 @@
             <type>pom</type>
             <scope>import</scope>
         </dependency>
+
+        <!--服务发现-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>2.2.7.RELEASE</version>
+        </dependency>
     </dependencies>
 </project>

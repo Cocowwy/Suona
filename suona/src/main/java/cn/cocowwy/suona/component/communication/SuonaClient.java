@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Cocowwy
@@ -23,11 +24,14 @@ public class SuonaClient {
     private static final String path = "/%s/suona/call";
     private final String url;
     private final String serverName;
+    private final RestTemplate restTemplate;
 
     public SuonaClient(@Value("${server.servlet.context-path}") String prefix,
-                       @Value("${spring.application.name}") String serverName) {
+                       @Value("${spring.application.name}") String serverName,
+                       RestTemplate restTemplate) {
         url = String.format(path, prefix);
         this.serverName = serverName;
+        this.restTemplate = restTemplate != null ? restTemplate : new RestTemplate();
     }
 
     public void callOthers(Suona suona) {
@@ -40,7 +44,6 @@ public class SuonaClient {
 
         new CallMethods(name, serverName);
         // todo HTTP
-
 
         // todo  log success info
     }
