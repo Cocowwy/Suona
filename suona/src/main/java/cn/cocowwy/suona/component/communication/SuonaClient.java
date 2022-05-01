@@ -7,10 +7,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Cocowwy
@@ -42,8 +47,18 @@ public class SuonaClient {
             return;
         }
 
-        new CallMethods(name, serverName);
+        CallMethods call = new CallMethods(name, serverName);
+
+        List<String> urls = discoveryClient.getInstances(serverName)
+                .stream()
+                .map(ServiceInstance::getUri)
+                .map(URI::toString)
+                .collect(Collectors.toList());
+
         // todo HTTP
+
+        for (String url : urls) {
+        }
 
         // todo  log success info
     }
