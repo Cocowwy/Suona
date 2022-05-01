@@ -5,6 +5,7 @@ import cn.cocowwy.suona.handler.SuonaExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Component;
 
 /**
@@ -49,14 +50,19 @@ class ServiceC {
     }
 }
 
+
 @Component
 class Start implements ApplicationRunner {
+//    @Autowired
+//    private ServiceA serviceA;
     @Autowired
-    private ServiceA serviceA;
+    private DiscoveryClient discoveryClient;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         // 测试Suona AOP 生效
-        serviceA.sayA();
+//        serviceA.sayA();
+        discoveryClient.getServices().forEach(System.out::print);
     }
 }
+
