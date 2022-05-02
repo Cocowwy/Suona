@@ -18,4 +18,8 @@ public class CallBack {
     public static CallBack notOk() {
         return new CallBack(Boolean.FALSE);
     }
+
+    public boolean isOk() {
+        return this.success;
+    }
 }
