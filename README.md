@@ -21,4 +21,10 @@ public class ServiceA {
 ```
 这样，当集群内任意节点的方法被调用时，其余节点也会同时进行调用
 
+环境：
+JDK1.8+  
+springcloud
+web环境  
+
+
 ## 开发中 coding...  欢迎大佬提供思路~~
