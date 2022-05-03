@@ -9,4 +9,22 @@
 
 那么，可以尝试使用 ```suona``` ，旨在能够让开发者在单一节点的方法被调用的时候，触发其他节点的同步进行调用，来模拟广播的操作，而开发者**仅需要使用一个注解来标记这个方法**，即可达到拆箱即用的效果
 
+你只需要这样使用它：
+```
+@Service
+public class ServiceA {
+    @Suona
+    public void sayA() throws Exception {
+        // do sth.
+    }
+}
+```
+这样，当集群内任意节点的方法被调用时，其余节点也会同时进行调用
+
+环境：
+JDK1.8+  
+springcloud
+web环境  
+
+
 ## 开发中 coding...  欢迎大佬提供思路~~
