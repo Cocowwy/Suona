@@ -1,4 +1,4 @@
-package cn.cocowwy.suonatestserver1.test2;
+package cn.cocowwy.suonatestserver2;
 
 import cn.cocowwy.suona.annotation.Suona;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +35,6 @@ public class TestController {
     @GetMapping("/testSuona")
     @Suona
     public void testSuona() {
-        System.out.println("test suona server1 -node1");
+        System.out.println("test suona server1 -node2");
     }
 }
