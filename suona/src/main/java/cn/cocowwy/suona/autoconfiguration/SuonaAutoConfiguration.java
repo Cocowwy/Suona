@@ -26,7 +26,7 @@ import java.util.Map;
  * @create 2022-04-04-17:10
  */
 @EnableConfigurationProperties({SuonaProperties.class})
-@ComponentScan("cn.cocowwy.suona.component")
+@ComponentScan({"cn.cocowwy.suona.component","cn.cocowwy.suona.component.communication"})
 @ConditionalOnProperty(name = "suona.enable", havingValue = "true")
 public class SuonaAutoConfiguration implements SmartInitializingSingleton {
     private static final Log logger = LogFactory.getLog(SuonaAutoConfiguration.class);

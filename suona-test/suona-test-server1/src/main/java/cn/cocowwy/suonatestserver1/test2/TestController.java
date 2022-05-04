@@ -17,6 +17,8 @@ import java.util.List;
 public class TestController {
     @Autowired
     private DiscoveryClient discoveryClient;
+    @Autowired
+    private TestService testService;
 
     /**
      * 测试 cluster 地址列表
@@ -33,8 +35,7 @@ public class TestController {
     }
 
     @GetMapping("/testSuona")
-    @Suona
     public void testSuona() {
-        System.out.println("test suona server1 -node1");
+        testService.sayHi();
     }
 }

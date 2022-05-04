@@ -8,10 +8,6 @@ package cn.cocowwy.suona.context;
 public class SuonaContextHolder {
     public static final ThreadLocal<Object> SKIP = new ThreadLocal<>();
 
-    static {
-        SKIP.set(Boolean.FALSE);
-    }
-
     public static void skip() {
         SKIP.set(new Object());
     }

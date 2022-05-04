@@ -5,8 +5,7 @@ import cn.cocowwy.suona.context.SuonaContextHolder;
 import cn.cocowwy.suona.handler.SuonaExecutor;
 import cn.cocowwy.suona.model.CallBack;
 import cn.cocowwy.suona.model.CallMethods;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 节点通讯：
@@ -15,20 +14,30 @@ import org.springframework.web.bind.annotation.RestController;
  * @author cocowwy.cn
  * @create 2022-04-04-21:01
  */
-@RestController("/suona")
+@RestController
+@RequestMapping("suona")
 public class SuonaReceive {
 
-    @PostMapping("/call")
-    public CallBack call(CallMethods call) {
+    @PostMapping("call")
+    public CallBack call(@RequestBody CallMethods call) {
 
         try {
             suonaBiz(call);
         } catch (Exception exception) {
+            //todo fixme
+
             return CallBack.notOk();
         } finally {
             SuonaContextHolder.clean();
         }
 
+        return CallBack.oK();
+    }
+
+    @GetMapping("/aa")
+    public CallBack call() {
+
+        System.out.println("1111");
         return CallBack.oK();
     }
 

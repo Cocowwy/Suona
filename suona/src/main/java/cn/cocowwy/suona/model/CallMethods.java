@@ -18,6 +18,15 @@ public class CallMethods {
      */
     private String serverName;
 
+    public CallMethods() {
+    }
+
+    public CallMethods(String name, String url, String serverName) {
+        this.name = name;
+        this.url = url;
+        this.serverName = serverName;
+    }
+
     public String getName() {
         return name;
     }

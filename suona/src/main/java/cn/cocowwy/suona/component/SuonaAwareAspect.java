@@ -25,7 +25,7 @@ public class SuonaAwareAspect {
     private SuonaClient suonaClient;
     @Autowired
     private ApplicationContext applicationContext;
-    @AutoConfigureOrder
+    @Autowired
     private SuonaHelp suonaHelp;
 
     @Pointcut("@annotation(cn.cocowwy.suona.annotation.Suona)")
@@ -43,7 +43,7 @@ public class SuonaAwareAspect {
     @Around("pointcut4Suona()&&@annotation(suona)")
     public Object around(ProceedingJoinPoint point, Suona suona) throws Throwable {
         // skip
-        if (!SuonaContextHolder.call()) {
+        if (SuonaContextHolder.call()) {
             return null;
         }
 

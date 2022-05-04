@@ -1,11 +1,11 @@
 package cn.cocowwy.suona.component.communication;
 
 import cn.cocowwy.suona.annotation.Suona;
-import cn.cocowwy.suona.component.SuonaHelp;
 import cn.cocowwy.suona.handler.SuonaExecutor;
 import cn.cocowwy.suona.model.CallBack;
 import cn.cocowwy.suona.model.CallMethods;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,8 +34,6 @@ public class SuonaClient {
     private DiscoveryClient discoveryClient;
     @Autowired
     private Environment environment;
-    @Autowired
-    private SuonaHelp suonaHelp;
     private static final Log logger = LogFactory.getLog(SuonaClient.class);
     private static final String path = "/%s/suona/call";
     private final static RestTemplate restTemplate = new RestTemplate();
@@ -81,15 +79,26 @@ public class SuonaClient {
         HttpEntity<String> request = new HttpEntity<>(msg, headers);
 
         for (String url : urls) {
-            ResponseEntity<CallBack> exchange = restTemplate
-                    .exchange(url + api, HttpMethod.POST, request, CallBack.class);
+            ResponseEntity<String> exchange = restTemplate
+                    .exchange(url + api, HttpMethod.POST, request, String.class);
 
-            CallBack callBack = exchange.getBody();
+            CallBack callBack = null;
+
+            try {
+                callBack = objectMapper.readValue(exchange.getBody(), new TypeReference<CallBack>() {});
+            } catch (JsonProcessingException e) {
+                logger.error("Serialization error ["+request.getBody()+"]");
+                e.printStackTrace();
+            }
+
+            // exclue call self
+            if (callBack == null) {
+                continue;
+            }
 
             if (!callBack.isOk()) {
                 logger.error("Suona call method [" + name + "] for url [" + url + "] is error");
             }
-
         }
 
         logger.info("Suona call method [" + name + "] complete");

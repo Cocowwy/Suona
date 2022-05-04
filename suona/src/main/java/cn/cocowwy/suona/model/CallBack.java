@@ -7,6 +7,9 @@ package cn.cocowwy.suona.model;
 public class CallBack {
     private Boolean success;
 
+    public CallBack() {
+    }
+
     private CallBack(Boolean success) {
         this.success = success;
     }
@@ -21,5 +24,12 @@ public class CallBack {
 
     public boolean isOk() {
         return this.success;
+    }
+
+    @Override
+    public String toString() {
+        return "CallBack{" +
+                "success=" + success +
+                '}';
     }
 }
