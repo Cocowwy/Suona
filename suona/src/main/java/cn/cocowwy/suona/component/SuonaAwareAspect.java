@@ -56,7 +56,7 @@ public class SuonaAwareAspect {
         }
 
         Object proceed = point.proceed();
-        suonaClient.callOthers(name);
+        suonaClient.callOthers(suona, name);
 
         return proceed;
     }

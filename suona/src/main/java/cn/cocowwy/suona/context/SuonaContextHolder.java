@@ -6,21 +6,21 @@ package cn.cocowwy.suona.context;
  * @create 2022-04-04-21:26
  */
 public class SuonaContextHolder {
-    public static final ThreadLocal<Boolean> SKIP = new ThreadLocal<>();
+    public static final ThreadLocal<Object> SKIP = new ThreadLocal<>();
 
     static {
         SKIP.set(Boolean.FALSE);
     }
 
     public static void skip() {
-        SKIP.set(Boolean.TRUE);
+        SKIP.set(new Object());
     }
 
     public static Boolean call() {
-        return !SKIP.get();
+        return SKIP.get() == null;
     }
 
-    public static void clean(){
+    public static void clean() {
         SKIP.remove();
     }
 }

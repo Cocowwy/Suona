@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,7 +57,7 @@ public class SuonaClient {
         this.serverName = environment.getProperty("spring.application.name");
     }
 
-    public void callOthers(String name) {
+    public void callOthers(Suona suona, String name) {
         if (StringUtils.isEmpty(name) || !SuonaExecutor.had(name)) {
             logger.error("method [" + name + "] Invalid");
             return;
@@ -69,13 +70,13 @@ public class SuonaClient {
             e.printStackTrace();
         }
 
-        // todo custom urls
-
-        List<String> urls = discoveryClient.getInstances(serverName)
-                .stream()
-                .map(ServiceInstance::getUri)
-                .map(URI::toString)
-                .collect(Collectors.toList());
+        List<String> urls = suona.url().length > 0
+                ? Arrays.asList(suona.url()) :
+                discoveryClient.getInstances(serverName)
+                        .stream()
+                        .map(ServiceInstance::getUri)
+                        .map(URI::toString)
+                        .collect(Collectors.toList());
 
         HttpEntity<String> request = new HttpEntity<>(msg, headers);
 
