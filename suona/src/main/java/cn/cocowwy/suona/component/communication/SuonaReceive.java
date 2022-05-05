@@ -47,7 +47,7 @@ public class SuonaReceive {
      * @param call
      */
     private void suonaBiz(CallMethods call) throws Exception {
-        SuonaContextHolder.skip();
+        SuonaContextHolder.label();
         SuonaExecutor.execute(call.getName());
     }
 }

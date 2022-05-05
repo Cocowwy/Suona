@@ -43,7 +43,7 @@ public class SuonaAwareAspect {
     @Around("pointcut4Suona()&&@annotation(suona)")
     public Object around(ProceedingJoinPoint point, Suona suona) throws Throwable {
         // skip
-        if (SuonaContextHolder.call()) {
+        if (SuonaContextHolder.skip()) {
             return null;
         }
 

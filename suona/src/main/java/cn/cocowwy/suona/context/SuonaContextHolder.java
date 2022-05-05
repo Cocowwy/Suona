@@ -8,12 +8,12 @@ package cn.cocowwy.suona.context;
 public class SuonaContextHolder {
     public static final ThreadLocal<Object> SKIP = new ThreadLocal<>();
 
-    public static void skip() {
+    public static void label() {
         SKIP.set(new Object());
     }
 
-    public static Boolean call() {
-        return SKIP.get() == null;
+    public static Boolean skip() {
+        return SKIP.get() != null;
     }
 
     public static void clean() {
