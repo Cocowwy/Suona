@@ -19,7 +19,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
+import java.net.InetAddress;
 import java.net.URI;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,7 +42,9 @@ public class SuonaClient {
     private final static ObjectMapper objectMapper = new ObjectMapper();
     private final static HttpHeaders headers = new HttpHeaders();
     private String serverName;
+    private String localUrl;
     private String api;
+    private String port;
 
     static {
         MediaType type = MediaType.parseMediaType("application/json;charset=UTF-8");
@@ -49,10 +53,12 @@ public class SuonaClient {
     }
 
     @PostConstruct
-    public void initPath() {
+    public void initPath() throws UnknownHostException {
         String prefix = environment.getProperty("server.servlet.context-path");
         api = String.format(path, prefix == null ? "" : prefix);
         this.serverName = environment.getProperty("spring.application.name");
+        this.port = environment.getProperty("server.port") == null ? "8080" : environment.getProperty("server.port");
+        this.localUrl = String.format("%s:%s", InetAddress.getLocalHost().getHostAddress(), this.port);
     }
 
     public void callOthers(Suona suona, String name) {
@@ -76,8 +82,9 @@ public class SuonaClient {
                         .map(URI::toString)
                         .collect(Collectors.toList());
 
+        // remove local
+        urls.remove(localUrl);
         HttpEntity<String> request = new HttpEntity<>(msg, headers);
-
         for (String url : urls) {
             ResponseEntity<String> exchange = restTemplate
                     .exchange(url + api, HttpMethod.POST, request, String.class);
@@ -85,9 +92,10 @@ public class SuonaClient {
             CallBack callBack = null;
 
             try {
-                callBack = objectMapper.readValue(exchange.getBody(), new TypeReference<CallBack>() {});
+                callBack = objectMapper.readValue(exchange.getBody(), new TypeReference<CallBack>() {
+                });
             } catch (JsonProcessingException e) {
-                logger.error("Serialization error ["+request.getBody()+"]");
+                logger.error("Serialization error [" + request.getBody() + "]");
                 e.printStackTrace();
             }
 
@@ -102,5 +110,13 @@ public class SuonaClient {
         }
 
         logger.info("Suona call method [" + name + "] complete");
+    }
+
+
+}
+
+class A {
+    public static void main(String[] args) throws UnknownHostException {
+        System.out.println(InetAddress.getLocalHost().getHostAddress());
     }
 }

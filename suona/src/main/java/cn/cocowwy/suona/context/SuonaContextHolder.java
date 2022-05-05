@@ -1,7 +1,7 @@
 package cn.cocowwy.suona.context;
 
 /**
- * 使用 SKIP 标记当前是执行者 而不是发起者 解决网状循环调用的问题
+ * 使用 SKIP 标记当前执行者不进行分发操作
  * @author Cocowwy
  * @create 2022-04-04-21:26
  */
