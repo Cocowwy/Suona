@@ -22,7 +22,6 @@ public class SuonaExecutor {
     }
 
     public static IMethodHandler registMethod(String name, IMethodHandler method) {
-        System.out.println(name + "  register~");
         return methodRepository.put(name, method);
     }
 

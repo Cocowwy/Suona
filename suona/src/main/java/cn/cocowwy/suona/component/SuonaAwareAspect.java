@@ -35,6 +35,9 @@ public class SuonaAwareAspect {
     /**
      * 对标记的方法进行 注册
      *
+     *  走内部通讯的 打上标记 执行实际的方法以及分发逻辑
+     *   // todo 这里的标记逻辑得思考一下 如何解决
+     *
      * @param point
      * @param suona
      * @return
@@ -42,8 +45,16 @@ public class SuonaAwareAspect {
      */
     @Around("pointcut4Suona()&&@annotation(suona)")
     public Object around(ProceedingJoinPoint point, Suona suona) throws Throwable {
-        // skip
+//        // skip
+//        if (!SuonaContextHolder.skip()) {
+//            // fix: stack over flow by self
+//            SuonaContextHolder.clean();
+//            return null;
+//        }
+
         if (SuonaContextHolder.skip()) {
+            // fix: stack over flow by self
+            SuonaContextHolder.clean();
             return null;
         }
 

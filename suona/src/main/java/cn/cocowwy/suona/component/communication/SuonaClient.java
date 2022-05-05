@@ -1,6 +1,7 @@
 package cn.cocowwy.suona.component.communication;
 
 import cn.cocowwy.suona.annotation.Suona;
+import cn.cocowwy.suona.context.SuonaContextHolder;
 import cn.cocowwy.suona.handler.SuonaExecutor;
 import cn.cocowwy.suona.model.CallBack;
 import cn.cocowwy.suona.model.CallMethods;
@@ -62,6 +63,7 @@ public class SuonaClient {
     }
 
     public void callOthers(Suona suona, String name) {
+        SuonaContextHolder.add();
         if (StringUtils.isEmpty(name) || !SuonaExecutor.had(name)) {
             logger.error("method [" + name + "] Invalid");
             return;
@@ -83,7 +85,7 @@ public class SuonaClient {
                         .collect(Collectors.toList());
 
         // remove local
-        urls.remove(localUrl);
+        urls = urls.stream().filter(u -> !u.contains(localUrl)).collect(Collectors.toList());
         HttpEntity<String> request = new HttpEntity<>(msg, headers);
         for (String url : urls) {
             ResponseEntity<String> exchange = restTemplate
@@ -104,7 +106,7 @@ public class SuonaClient {
                 continue;
             }
 
-            if (!callBack.isOk()) {
+            if (!callBack.getSuccess()) {
                 logger.error("Suona call method [" + name + "] for url [" + url + "] is error");
             }
         }

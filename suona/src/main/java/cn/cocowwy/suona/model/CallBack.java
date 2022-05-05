@@ -1,29 +1,27 @@
 package cn.cocowwy.suona.model;
 
+import java.io.Serializable;
+
 /**
  * @author Cocowwy
  * @create 2022-04-04-21:09
  */
-public class CallBack {
+public class CallBack implements Serializable {
     private Boolean success;
 
     public CallBack() {
     }
 
-    private CallBack(Boolean success) {
+    public CallBack(Boolean success) {
         this.success = success;
     }
 
-    public static CallBack oK() {
-        return new CallBack(Boolean.TRUE);
+    public Boolean getSuccess() {
+        return success;
     }
 
-    public static CallBack notOk() {
-        return new CallBack(Boolean.FALSE);
-    }
-
-    public boolean isOk() {
-        return this.success;
+    public void setSuccess(Boolean success) {
+        this.success = success;
     }
 
     @Override

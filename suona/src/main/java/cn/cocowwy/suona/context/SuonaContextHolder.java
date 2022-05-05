@@ -6,14 +6,24 @@ package cn.cocowwy.suona.context;
  * @create 2022-04-04-21:26
  */
 public class SuonaContextHolder {
-    public static final ThreadLocal<Object> SKIP = new ThreadLocal<>();
+    public static final ThreadLocal<Integer> SKIP = new ThreadLocal<>();
 
     public static void label() {
-        SKIP.set(new Object());
+        SKIP.set(1);
+    }
+
+    public static void add() {
+        SKIP.set(SKIP.get() + 1);
     }
 
     public static Boolean skip() {
-        return SKIP.get() != null;
+        // 标记开头（未在Suona执行逻辑中标记） 也指方法的第一次被调用
+        if (SKIP.get() == null) {
+            SKIP.set(1);
+            return Boolean.FALSE;
+        }
+
+        return SKIP.get() > 1;
     }
 
     public static void clean() {
