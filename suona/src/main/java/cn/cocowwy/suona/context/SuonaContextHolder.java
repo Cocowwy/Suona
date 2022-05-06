@@ -1,7 +1,5 @@
 package cn.cocowwy.suona.context;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 /**
  * 使用 SKIP 标记当前执行者不进行分发操作
  * @author Cocowwy
