@@ -1,5 +1,7 @@
 package cn.cocowwy.suona.context;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 /**
  * 使用 SKIP 标记当前执行者不进行分发操作
  * @author Cocowwy
@@ -16,10 +18,6 @@ public class SuonaContextHolder {
         SUONA_CONTET.set(new SuonaContext(true));
     }
 
-    public static void down() {
-        SUONA_CONTET.get().add();
-    }
-
     /**
      * 是否执行方法
      * @return
@@ -29,7 +27,7 @@ public class SuonaContextHolder {
             // 发送者走切面 故需标记为发起者
             SUONA_CONTET.set(new SuonaContext(false));
         }
-        return SUONA_CONTET.get().getTimes() == 0;
+        return Boolean.TRUE;
     }
 
     /**

@@ -1,7 +1,6 @@
 package cn.cocowwy.suona.component.communication;
 
 import cn.cocowwy.suona.annotation.Suona;
-import cn.cocowwy.suona.context.SuonaContextHolder;
 import cn.cocowwy.suona.handler.SuonaExecutor;
 import cn.cocowwy.suona.model.CallBack;
 import cn.cocowwy.suona.model.CallMethods;

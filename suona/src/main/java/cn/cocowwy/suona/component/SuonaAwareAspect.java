@@ -14,7 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 /**
- * 用于感知被Suona标注的方法的调用，执行集群方法的同步
+ * 用于感知被Suona标注的方法的调用
+ * 执行集群方法的同步调用
+ *
  * @author cocowwy.cn
  * @create 2022-04-04-9:48
  */
@@ -33,6 +35,12 @@ public class SuonaAwareAspect {
     }
 
     /**
+     * 使用切面进行方法监听以及广播操作
+     * 但是存在两个难点？
+     *
+     * 1.如何识别当前方法被调用的时候是发起者还是集群其他节点被迫调用者？
+     * 2.该切面是针对@Suona标注的方法，那么执行改方法的时候，
+     *
      * 发起者先进行标记为发起者
      * 接受者在{@link SuonaReceive#suonaBiz(cn.cocowwy.suona.model.CallMethods)}已经被标记为接受者
      * 用来判断是否进行广播操作，防止接受者因为切面逻辑而被进行广播操作

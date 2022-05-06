@@ -18,15 +18,8 @@ public class SuonaContext {
      */
     private Boolean accept;
 
-    /**
-     * 线程上下文中，方法被调用的次数
-     *      用于解决方法经过{@link SuonaAwareAspect}切面多次调用
-     */
-    private Integer times;
-
     public SuonaContext(Boolean accept) {
         this.accept = accept;
-        this.times = 0;
     }
 
     public Boolean getAccept() {
@@ -35,13 +28,5 @@ public class SuonaContext {
 
     public void setAccept(Boolean accept) {
         this.accept = accept;
-    }
-
-    public Integer getTimes() {
-        return times;
-    }
-
-    public void add() {
-        this.times += 1;
     }
 }

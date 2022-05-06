@@ -34,7 +34,7 @@ public class SuonaExecutor {
         }
 
         method.execute();
-        logger.info("method [" + name + "] execution succeed");
+        logger.info("Method [" + name + "] execution succeed as accepter");
     }
 
     public static Boolean had(String name) {
