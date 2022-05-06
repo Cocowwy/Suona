@@ -2,13 +2,13 @@ package cn.cocowwy.suona.component;
 
 import cn.cocowwy.suona.annotation.Suona;
 import cn.cocowwy.suona.component.communication.SuonaClient;
+import cn.cocowwy.suona.component.communication.SuonaReceive;
 import cn.cocowwy.suona.context.SuonaContextHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -33,10 +33,12 @@ public class SuonaAwareAspect {
     }
 
     /**
-     * 对标记的方法进行 注册
+     * 发起者先进行标记为发起者
+     * 接受者在{@link SuonaReceive#suonaBiz(cn.cocowwy.suona.model.CallMethods)}已经被标记为接受者
+     * 用来判断是否进行广播操作，防止接受者因为切面逻辑而被进行广播操作
      *
-     *  走内部通讯的 打上标记 执行实际的方法以及分发逻辑
-     *   // todo 这里的标记逻辑得思考一下 如何解决
+     * {@link cn.cocowwy.suona.context.SuonaContextHolder#doSuonaMethod()}
+     * 通过该方法来判断方法是否继续执行，以为被 Suona方法执行后
      *
      * @param point
      * @param suona
@@ -45,15 +47,8 @@ public class SuonaAwareAspect {
      */
     @Around("pointcut4Suona()&&@annotation(suona)")
     public Object around(ProceedingJoinPoint point, Suona suona) throws Throwable {
-//        // skip
-//        if (!SuonaContextHolder.skip()) {
-//            // fix: stack over flow by self
-//            SuonaContextHolder.clean();
-//            return null;
-//        }
-
-        if (SuonaContextHolder.skip()) {
-            // fix: stack over flow by self
+        // skip
+        if (!SuonaContextHolder.doSuonaMethod()) {
             SuonaContextHolder.clean();
             return null;
         }
@@ -67,7 +62,11 @@ public class SuonaAwareAspect {
         }
 
         Object proceed = point.proceed();
-        suonaClient.callOthers(suona, name);
+
+        // call others
+        if (SuonaContextHolder.doCallOthers()) {
+            suonaClient.callOthers(suona, name);
+        }
 
         return proceed;
     }

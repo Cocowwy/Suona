@@ -6,27 +6,41 @@ package cn.cocowwy.suona.context;
  * @create 2022-04-04-21:26
  */
 public class SuonaContextHolder {
-    public static final ThreadLocal<Integer> SKIP = new ThreadLocal<>();
+    public static final ThreadLocal<SuonaContext> SUONA_CONTET = new ThreadLocal<>();
+
+    public static void get() {
+        SUONA_CONTET.get();
+    }
 
     public static void label() {
-        SKIP.set(1);
+        SUONA_CONTET.set(new SuonaContext(true));
     }
 
-    public static void add() {
-        SKIP.set(SKIP.get() + 1);
+    public static void down() {
+        SUONA_CONTET.get().add();
     }
 
-    public static Boolean skip() {
-        // 标记开头（未在Suona执行逻辑中标记） 也指方法的第一次被调用
-        if (SKIP.get() == null) {
-            SKIP.set(1);
-            return Boolean.FALSE;
+    /**
+     * 是否执行方法
+     * @return
+     */
+    public static Boolean doSuonaMethod() {
+        if (SUONA_CONTET.get() == null) {
+            // 发送者走切面 故需标记为发起者
+            SUONA_CONTET.set(new SuonaContext(false));
         }
+        return SUONA_CONTET.get().getTimes() == 0;
+    }
 
-        return SKIP.get() > 1;
+    /**
+     * 是否执行唤醒其他节点方法
+     * @return
+     */
+    public static Boolean doCallOthers() {
+        return !SUONA_CONTET.get().getAccept();
     }
 
     public static void clean() {
-        SKIP.remove();
+        SUONA_CONTET.remove();
     }
 }

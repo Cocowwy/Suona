@@ -63,7 +63,6 @@ public class SuonaClient {
     }
 
     public void callOthers(Suona suona, String name) {
-        SuonaContextHolder.add();
         if (StringUtils.isEmpty(name) || !SuonaExecutor.had(name)) {
             logger.error("method [" + name + "] Invalid");
             return;
@@ -110,15 +109,6 @@ public class SuonaClient {
                 logger.error("Suona call method [" + name + "] for url [" + url + "] is error");
             }
         }
-
         logger.info("Suona call method [" + name + "] complete");
-    }
-
-
-}
-
-class A {
-    public static void main(String[] args) throws UnknownHostException {
-        System.out.println(InetAddress.getLocalHost().getHostAddress());
     }
 }

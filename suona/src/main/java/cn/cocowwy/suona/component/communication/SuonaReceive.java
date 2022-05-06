@@ -45,7 +45,12 @@ public class SuonaReceive {
      * @param call
      */
     private void suonaBiz(CallMethods call) throws Exception {
+        // 标记 告诉切面当前是接受者
         SuonaContextHolder.label();
+        // 实际执行方法
         SuonaExecutor.execute(call.getName());
+        // 标记方法已经执行完毕
+        SuonaContextHolder.down();
+
     }
 }
