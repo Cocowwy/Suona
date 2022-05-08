@@ -1,16 +1,15 @@
 package cn.cocowwy.suona.autoconfiguration;
 
 import cn.cocowwy.suona.annotation.Suona;
-import cn.cocowwy.suona.handler.SuonaExecutor;
 import cn.cocowwy.suona.component.SuonaHelp;
+import cn.cocowwy.suona.handler.IMethodHandler;
+import cn.cocowwy.suona.handler.SuonaExecutor;
 import cn.cocowwy.suona.handler.SuonaMethodWrapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.SmartInitializingSingleton;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.MethodIntrospector;
@@ -20,13 +19,14 @@ import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author cocowwy.cn
  * @create 2022-04-04-17:10
  */
 @EnableConfigurationProperties({SuonaProperties.class})
-@ComponentScan({"cn.cocowwy.suona.component","cn.cocowwy.suona.component.communication"})
+@ComponentScan({"cn.cocowwy.suona.component", "cn.cocowwy.suona.component.communication"})
 @ConditionalOnProperty(name = "suona.enable", havingValue = "true")
 public class SuonaAutoConfiguration implements SmartInitializingSingleton {
     private static final Log logger = LogFactory.getLog(SuonaAutoConfiguration.class);
@@ -83,7 +83,10 @@ public class SuonaAutoConfiguration implements SmartInitializingSingleton {
 
                 method.setAccessible(true);
 
-                SuonaExecutor.registMethod(name, new SuonaMethodWrapper(bean, method, sna));
+                IMethodHandler exist = SuonaExecutor.registMethod(name, new SuonaMethodWrapper(bean, method, sna));
+                if (Objects.nonNull(exist)) {
+                    throw new RuntimeException("There is the same Suona named [" + name + "]");
+                }
             }
         }
 

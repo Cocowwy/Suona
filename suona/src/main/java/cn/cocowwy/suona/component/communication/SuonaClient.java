@@ -1,7 +1,6 @@
 package cn.cocowwy.suona.component.communication;
 
 import cn.cocowwy.suona.annotation.Suona;
-import cn.cocowwy.suona.context.SuonaContextHolder;
 import cn.cocowwy.suona.handler.SuonaExecutor;
 import cn.cocowwy.suona.model.CallBack;
 import cn.cocowwy.suona.model.CallMethods;
@@ -39,6 +38,8 @@ public class SuonaClient {
     private Environment environment;
     private static final Log logger = LogFactory.getLog(SuonaClient.class);
     private static final String path = "/%s/suona/call";
+    private static final String urlHttpPrefix = "http://";
+    private static final String urlHttpsPrefix = "https://";
     private final static RestTemplate restTemplate = new RestTemplate();
     private final static ObjectMapper objectMapper = new ObjectMapper();
     private final static HttpHeaders headers = new HttpHeaders();
@@ -87,6 +88,12 @@ public class SuonaClient {
         urls = urls.stream().filter(u -> !u.contains(localUrl)).collect(Collectors.toList());
         HttpEntity<String> request = new HttpEntity<>(msg, headers);
         for (String url : urls) {
+
+            // fix: java.net.URISyntaxException
+            if (!url.startsWith(urlHttpPrefix) && !url.startsWith(urlHttpsPrefix)) {
+                url = urlHttpPrefix + url;
+            }
+
             ResponseEntity<String> exchange = restTemplate
                     .exchange(url + api, HttpMethod.POST, request, String.class);
 
