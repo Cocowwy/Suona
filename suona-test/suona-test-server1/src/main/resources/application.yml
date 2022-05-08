@@ -5,5 +5,10 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+server:
+  port: 8080
+#  servlet:
+#    context-path: /test
 suona:
   enable: true
+

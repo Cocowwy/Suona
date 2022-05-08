@@ -14,11 +14,9 @@ import java.util.List;
  * @create 2022-05-05-23:21
  */
 @RestController
-public class TestController {
+public class TestDiscoveryController {
     @Autowired
     private DiscoveryClient discoveryClient;
-    @Autowired
-    private TestService testService;
 
     /**
      * 测试 cluster 地址列表
@@ -34,9 +32,4 @@ public class TestController {
         });
     }
 
-
-    @GetMapping("/testSuona")
-    public void testSuona() {
-        testService.sayHi();
-    }
 }

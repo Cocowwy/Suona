@@ -12,6 +12,7 @@
         <module>suona</module>
         <module>suona-test/suona-test-server1</module>
         <module>suona-test/suona-test-server2</module>
+        <module>suona-test/suona-test-server3</module>
     </modules>
 
     <dependencyManagement>
