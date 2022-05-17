@@ -14,7 +14,7 @@
 @Service
 public class ServiceA {
     @Suona
-    public void sayA() throws Exception {
+    public void sayA() {
         // do sth.
     }
 }
