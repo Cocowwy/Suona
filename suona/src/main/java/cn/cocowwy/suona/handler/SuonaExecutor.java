@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
  * @create 2022-04-04-21:37
  */
 public class SuonaExecutor {
-    private static final Log logger = LogFactory.getLog(SuonaExecutor.class);
+    private static final Log LOG = LogFactory.getLog(SuonaExecutor.class);
     private static final ConcurrentMap<String, IMethodHandler> methodRepository = new ConcurrentHashMap<>(16);
 
     private SuonaExecutor() {
@@ -29,12 +29,12 @@ public class SuonaExecutor {
         IMethodHandler method = methodRepository.get(name);
 
         if (method == null) {
-            logger.error("method [" + name + "] unregistered");
+            LOG.error("method [" + name + "] unregistered");
             return;
         }
 
         method.execute();
-        logger.info("Method [" + name + "] execution succeed as accepter");
+        LOG.info("Method [" + name + "] execution succeed as accepter");
     }
 
     public static Boolean had(String name) {

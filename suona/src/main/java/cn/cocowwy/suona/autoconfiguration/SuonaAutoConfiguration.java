@@ -29,7 +29,7 @@ import java.util.Objects;
 @ComponentScan({"cn.cocowwy.suona.component", "cn.cocowwy.suona.component.communication"})
 @ConditionalOnProperty(name = "suona.enable", havingValue = "true")
 public class SuonaAutoConfiguration implements SmartInitializingSingleton {
-    private static final Log logger = LogFactory.getLog(SuonaAutoConfiguration.class);
+    private static final Log LOG = LogFactory.getLog(SuonaAutoConfiguration.class);
     private final ApplicationContext applicationContext;
     private final SuonaHelp suonaHelp;
 
@@ -37,15 +37,16 @@ public class SuonaAutoConfiguration implements SmartInitializingSingleton {
         this.applicationContext = applicationContext;
         this.suonaHelp = suonaHelp;
         try {
-            boolean isWeb = ClassUtils.resolveClassName("org.springframework.web.context.WebApplicationContext",
-                    null).isAssignableFrom(applicationContext.getClass());
+            boolean isWeb = ClassUtils
+                    .resolveClassName("org.springframework.web.context.WebApplicationContext",
+                            null).isAssignableFrom(applicationContext.getClass());
             if (!isWeb) {
                 throw new IllegalAccessException();
             }
         } catch (Exception e) {
             throw new RuntimeException("Not web environment, Suona cannot be started");
         }
-        logger.debug("Environment check passed");
+        LOG.debug("Environment check passed");
     }
 
     /**
@@ -64,9 +65,10 @@ public class SuonaAutoConfiguration implements SmartInitializingSingleton {
             try {
                 // 获取当前 bean 上的所有的方法集合
                 annotatedMethods = MethodIntrospector.selectMethods(bean.getClass(),
-                        (MethodIntrospector.MetadataLookup<Suona>) method -> AnnotatedElementUtils.findMergedAnnotation(method, Suona.class));
+                        (MethodIntrospector.MetadataLookup<Suona>) method
+                                -> AnnotatedElementUtils.findMergedAnnotation(method, Suona.class));
             } catch (Throwable ex) {
-                logger.error("Suona method collection method error for bean[" + beanName + "].", ex);
+                LOG.error("Suona method collection method error for bean[" + beanName + "].", ex);
             }
 
             if (annotatedMethods == null || annotatedMethods.isEmpty()) {
@@ -78,8 +80,8 @@ public class SuonaAutoConfiguration implements SmartInitializingSingleton {
                 Method method = methodSuonaEntry.getKey();
                 Suona sna = methodSuonaEntry.getValue();
 
-                String name = StringUtils.isEmpty(sna.name()) ?
-                        suonaHelp.buildSuonaName(beanName, method.getName()) : sna.name();
+                String name = StringUtils.isEmpty(sna.name())
+                        ? suonaHelp.buildSuonaName(beanName, method.getName()) : sna.name();
 
                 method.setAccessible(true);
 
@@ -90,6 +92,6 @@ public class SuonaAutoConfiguration implements SmartInitializingSingleton {
             }
         }
 
-        logger.info("Suona registration is complete");
+        LOG.info("Suona registration is complete");
     }
 }

@@ -37,12 +37,12 @@ public class SuonaClient {
     @Autowired
     private Environment environment;
     private static final Log logger = LogFactory.getLog(SuonaClient.class);
-    private static final String path = "/%s/suona/call";
-    private static final String urlHttpPrefix = "http://";
-    private static final String urlHttpsPrefix = "https://";
-    private final static RestTemplate restTemplate = new RestTemplate();
-    private final static ObjectMapper objectMapper = new ObjectMapper();
-    private final static HttpHeaders headers = new HttpHeaders();
+    private static final String PATH = "/%s/suona/call";
+    private static final String URL_HTTP_PREFIX = "http://";
+    private static final String URL_HTTPS_PREFIX = "https://";
+    private final static RestTemplate REST_TEMPLATE = new RestTemplate();
+    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private final static HttpHeaders HEAEDERS = new HttpHeaders();
     private String serverName;
     private String localUrl;
     private String api;
@@ -50,14 +50,14 @@ public class SuonaClient {
 
     static {
         MediaType type = MediaType.parseMediaType("application/json;charset=UTF-8");
-        headers.setContentType(type);
-        headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+        HEAEDERS.setContentType(type);
+        HEAEDERS.add("Accept", MediaType.APPLICATION_JSON.toString());
     }
 
     @PostConstruct
     public void initPath() throws UnknownHostException {
         String prefix = environment.getProperty("server.servlet.context-path");
-        api = String.format(path, prefix == null ? "" : prefix);
+        api = String.format(PATH, prefix == null ? "" : prefix);
         this.serverName = environment.getProperty("spring.application.name");
         this.port = environment.getProperty("server.port") == null ? "8080" : environment.getProperty("server.port");
         this.localUrl = String.format("%s:%s", InetAddress.getLocalHost().getHostAddress(), this.port);
@@ -71,36 +71,36 @@ public class SuonaClient {
 
         String msg = null;
         try {
-            msg = objectMapper.writeValueAsString(new CallMethods(name, serverName));
+            msg = OBJECT_MAPPER.writeValueAsString(new CallMethods(name, serverName));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
         List<String> urls = suona.url().length > 0
-                ? Arrays.asList(suona.url()) :
-                discoveryClient.getInstances(serverName)
-                        .stream()
-                        .map(ServiceInstance::getUri)
-                        .map(URI::toString)
-                        .collect(Collectors.toList());
+                ? Arrays.asList(suona.url())
+                : discoveryClient.getInstances(serverName)
+                .stream()
+                .map(ServiceInstance::getUri)
+                .map(URI::toString)
+                .collect(Collectors.toList());
 
         // remove local
         urls = urls.stream().filter(u -> !u.contains(localUrl)).collect(Collectors.toList());
-        HttpEntity<String> request = new HttpEntity<>(msg, headers);
+        HttpEntity<String> request = new HttpEntity<>(msg, HEAEDERS);
         for (String url : urls) {
 
             // fix: java.net.URISyntaxException
-            if (!url.startsWith(urlHttpPrefix) && !url.startsWith(urlHttpsPrefix)) {
-                url = urlHttpPrefix + url;
+            if (!url.startsWith(URL_HTTP_PREFIX) && !url.startsWith(URL_HTTPS_PREFIX)) {
+                url = URL_HTTP_PREFIX + url;
             }
 
-            ResponseEntity<String> exchange = restTemplate
+            ResponseEntity<String> exchange = REST_TEMPLATE
                     .exchange(url + api, HttpMethod.POST, request, String.class);
 
             CallBack callBack = null;
 
             try {
-                callBack = objectMapper.readValue(exchange.getBody(), new TypeReference<CallBack>() {
+                callBack = OBJECT_MAPPER.readValue(exchange.getBody(), new TypeReference<CallBack>() {
                 });
             } catch (JsonProcessingException e) {
                 logger.error("Serialization error [" + request.getBody() + "]");
