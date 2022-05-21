@@ -28,3 +28,10 @@ public class ServiceA {
 
 
 ## 内测中... 敬请期待
+```
+<dependency>
+    <groupId>cn.cocowwy</groupId>
+    <artifactId>suona</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+</dependency>
+```
