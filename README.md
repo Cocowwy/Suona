@@ -34,4 +34,13 @@ public class ServiceA {
     <artifactId>suona</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
+<repositories>
+    <repository>
+        <id>snapshots</id>
+        <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
+</repositories>
 ```
