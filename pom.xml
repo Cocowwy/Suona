@@ -10,9 +10,9 @@
 
     <modules>
         <module>suona</module>
-<!--        <module>suona-test/suona-test-server1</module>-->
-<!--        <module>suona-test/suona-test-server2</module>-->
-<!--        <module>suona-test/suona-test-server3</module>-->
+        <module>suona-test/suona-test-server1</module>
+        <module>suona-test/suona-test-server2</module>
+        <module>suona-test/suona-test-server3</module>
     </modules>
 
     <dependencyManagement>
@@ -133,29 +133,29 @@
                     </execution>
                 </executions>
             </plugin>
-<!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
-            <!--                <configuration>-->
-            <!--                    <configLocation>checkstyle/checkstyle.xml</configLocation>-->
-            <!--                    <failsOnError>true</failsOnError>-->
-            <!--                    <failOnViolation>true</failOnViolation>-->
-            <!--                    <consoleOutput>true</consoleOutput>-->
-            <!--                    <sourceDirectories>-->
-            <!--                        <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>-->
-            <!--                        <sourceDirectory>${project.build.testSourceDirectory}</sourceDirectory>-->
-            <!--                    </sourceDirectories>-->
-            <!--                </configuration>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <id>checkstyle</id>-->
-            <!--                        <phase>compile</phase>-->
-            <!--                        <goals>-->
-            <!--                            <goal>check</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <configLocation>checkstyle/checkstyle.xml</configLocation>
+                    <failsOnError>true</failsOnError>
+                    <failOnViolation>true</failOnViolation>
+                    <consoleOutput>true</consoleOutput>
+                    <sourceDirectories>
+                        <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+                        <sourceDirectory>${project.build.testSourceDirectory}</sourceDirectory>
+                    </sourceDirectories>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>checkstyle</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
