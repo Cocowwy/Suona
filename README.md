@@ -27,6 +27,11 @@ public class ServiceA {
 |  JDK  | 1.8+  |  
 |  SpringCloud  | discovery |
 
+
+## 注意
+**如果使用了权限框架或者是自定义了web拦截器的需要注意一下：**  
+**由于Suona集群通讯采用内嵌的web接口进行，所以需要对该web请求进行放行**： ```/suona/call```
+
 ## 内测中... 敬请期待
 ```
 <dependency>
