@@ -36,7 +36,17 @@ public class ServiceA {
 **如果使用了权限框架或者是自定义了web拦截器的需要注意一下：**  
 **由于Suona集群通讯采用内嵌的web接口进行，所以需要对该web请求进行放行**： ```/suona/call```
 
-## 内测中... 敬请期待
+## 稳定版
+```
+<dependency>
+    <groupId>cn.cocowwy</groupId>
+    <artifactId>suona</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+
+## 快照版本见下，发布最新的代码
 ```
 <dependency>
     <groupId>cn.cocowwy</groupId>
