@@ -6,13 +6,13 @@
 
     <groupId>cn.cocowwy</groupId>
     <artifactId>suona-all</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <modules>
         <module>suona</module>
-        <module>suona-test/suona-test-server1</module>
-        <module>suona-test/suona-test-server2</module>
-        <module>suona-test/suona-test-server3</module>
+<!--        <module>suona-test/suona-test-server1</module>-->
+<!--        <module>suona-test/suona-test-server2</module>-->
+<!--        <module>suona-test/suona-test-server3</module>-->
     </modules>
 
     <dependencyManagement>
@@ -24,16 +24,16 @@
             </dependency>
 
             <!--TEST-->
-            <dependency>
-                <groupId>cn.cocowwy</groupId>
-                <artifactId>suona-test-server1</artifactId>
-                <version>${suona.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.cocowwy</groupId>
-                <artifactId>suona-test-server2</artifactId>
-                <version>${suona.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>cn.cocowwy</groupId>-->
+<!--                <artifactId>suona-test-server1</artifactId>-->
+<!--                <version>${suona.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>cn.cocowwy</groupId>-->
+<!--                <artifactId>suona-test-server2</artifactId>-->
+<!--                <version>${suona.version}</version>-->
+<!--            </dependency>-->
 
             <!--version-->
             <dependency>
@@ -72,7 +72,7 @@
     </developers>
 
     <properties>
-        <suona.version>1.0.0-SNAPSHOT</suona.version>
+        <suona.version>1.0.0</suona.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
