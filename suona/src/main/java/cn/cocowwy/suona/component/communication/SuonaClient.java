@@ -76,6 +76,7 @@ public class SuonaClient {
             e.printStackTrace();
         }
 
+        // get all ips in this server
         List<String> urls = suona.url().length > 0
                 ? Arrays.asList(suona.url())
                 : discoveryClient.getInstances(serverName)
@@ -84,8 +85,10 @@ public class SuonaClient {
                 .map(URI::toString)
                 .collect(Collectors.toList());
 
-        // remove local
+        // remove local 本地IP不进行节点方法的调用
+        logger.info("ips are :[" + Arrays.toString(urls.toArray()) + "]");
         urls = urls.stream().filter(u -> !u.contains(localUrl)).collect(Collectors.toList());
+        logger.info("remove local , ips are :[" + Arrays.toString(urls.toArray()) + "]");
         HttpEntity<String> request = new HttpEntity<>(msg, HEAEDERS);
         for (String url : urls) {
 

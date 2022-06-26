@@ -43,7 +43,7 @@ public class SuonaAwareAspect {
      */
     @Around("pointcut4Suona()&&@annotation(suona)")
     public Object around(ProceedingJoinPoint point, Suona suona) throws Throwable {
-        // skip
+        // skip 对于发起者而言，AOP将要进行分发逻辑
         if (!SuonaContextHolder.doSuonaMethod()) {
             SuonaContextHolder.clean();
             return null;
@@ -59,7 +59,7 @@ public class SuonaAwareAspect {
 
         Object proceed = point.proceed();
 
-        // call others
+        // call others 发送消息给集群的所有节点
         if (SuonaContextHolder.doCallOthers()) {
             suonaClient.callOthers(suona, name);
         }
