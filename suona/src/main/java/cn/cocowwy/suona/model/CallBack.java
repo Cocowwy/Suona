@@ -26,8 +26,9 @@ public class CallBack implements Serializable {
 
     @Override
     public String toString() {
-        return "CallBack{" +
-                "success=" + success
+        return "CallBack{"
+                + "success="
+                + success
                 + '}';
     }
 }

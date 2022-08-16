@@ -1,5 +1,6 @@
 package cn.cocowwy.suona.annotation;
 
+import cn.cocowwy.suona.enums.CallWayEnum;
 import cn.cocowwy.suona.enums.SpreadEnum;
 
 import java.lang.annotation.ElementType;
@@ -34,4 +35,12 @@ public @interface Suona {
      * SpreadEnum.NONE      模式  不进行集群同步执行
      */
     SpreadEnum spread() default SpreadEnum.BROADCAST;
+
+    /**
+     * 唤醒其余节点的方式
+     * SYNC 模式 同步，会等待其余节点RPC结果
+     * ASYNC 模式 异步，会异步进行，不等待其余节点响应
+     * @return
+     */
+    CallWayEnum callWay() default CallWayEnum.SYNC;
 }

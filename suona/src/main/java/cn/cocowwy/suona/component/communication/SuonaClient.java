@@ -14,6 +14,7 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
@@ -38,13 +39,14 @@ public class SuonaClient {
     private DiscoveryClient discoveryClient;
     @Autowired
     private Environment environment;
-    private static final Log logger = LogFactory.getLog(SuonaClient.class);
+    private static final Log LOGGER = LogFactory.getLog(SuonaClient.class);
     private static final String PATH = "/%s/suona/call";
     private static final String URL_HTTP_PREFIX = "http://";
     private static final String URL_HTTPS_PREFIX = "https://";
-    private final static RestTemplate REST_TEMPLATE = new RestTemplate();
-    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private final static HttpHeaders HEAEDERS = new HttpHeaders();
+    private static final  RestTemplate REST_TEMPLATE = new RestTemplate();
+    private static
+    final  ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final  HttpHeaders HEAEDERS = new HttpHeaders();
     private String serverName;
     private String localUrl;
     private String api;
@@ -67,7 +69,7 @@ public class SuonaClient {
 
     public void callOthers(Suona suona, String name) {
         if (StringUtils.isEmpty(name) || !SuonaExecutor.had(name)) {
-            logger.error("method [" + name + "] Invalid");
+            LOGGER.error("method [" + name + "] Invalid");
             return;
         }
 
@@ -88,9 +90,9 @@ public class SuonaClient {
                 .collect(Collectors.toList());
 
         // remove local 本地IP不进行节点方法的调用
-        logger.info("Suona find ip list is:[" + Arrays.toString(urls.toArray()) + "]");
+        LOGGER.info("Suona find ip list is:[" + Arrays.toString(urls.toArray()) + "]");
         urls = urls.stream().filter(u -> !u.contains(localUrl)).collect(Collectors.toList());
-        logger.info("Remove local , this ip list:[" + Arrays.toString(urls.toArray()) + "] will be call [" + name + "]");
+        LOGGER.info("Remove local , this ip list:[" + Arrays.toString(urls.toArray()) + "] will be call [" + name + "]");
         HttpEntity<String> request = new HttpEntity<>(msg, HEAEDERS);
         for (String url : urls) {
 
@@ -108,7 +110,7 @@ public class SuonaClient {
                 callBack = OBJECT_MAPPER.readValue(exchange.getBody(), new TypeReference<CallBack>() {
                 });
             } catch (JsonProcessingException e) {
-                logger.error("Serialization error [" + request.getBody() + "]");
+                LOGGER.error("Serialization error [" + request.getBody() + "]");
                 e.printStackTrace();
             }
 
@@ -118,9 +120,14 @@ public class SuonaClient {
             }
 
             if (!callBack.getSuccess()) {
-                logger.error("Suona call method [" + name + "] for url [" + url + "] is error");
+                LOGGER.error("Suona call method [" + name + "] for url [" + url + "] is error");
             }
         }
-        logger.info("Suona call method [" + name + "] complete");
+        LOGGER.info("Suona call method [" + name + "] complete");
+    }
+
+    @Async
+    public void asyncCallOthers(Suona suona, String name) {
+        callOthers(suona, name);
     }
 }

@@ -14,19 +14,19 @@ import java.util.concurrent.ConcurrentMap;
  * @author Cocowwy
  * @create 2022-04-04-21:37
  */
-public class SuonaExecutor {
+public final class SuonaExecutor {
     private static final Log LOG = LogFactory.getLog(SuonaExecutor.class);
-    private static final ConcurrentMap<String, IMethodHandler> methodRepository = new ConcurrentHashMap<>(16);
+    private static final ConcurrentMap<String, IMethodHandler> METHOD_REPOSITORY = new ConcurrentHashMap<>(16);
 
     private SuonaExecutor() {
     }
 
     public static IMethodHandler registMethod(String name, IMethodHandler method) {
-        return methodRepository.put(name, method);
+        return METHOD_REPOSITORY.put(name, method);
     }
 
     public static void execute(String name) throws Exception {
-        IMethodHandler method = methodRepository.get(name);
+        IMethodHandler method = METHOD_REPOSITORY.get(name);
 
         if (method == null) {
             LOG.error("method [" + name + "] unregistered");
@@ -38,7 +38,7 @@ public class SuonaExecutor {
     }
 
     public static Boolean had(String name) {
-        return methodRepository.containsKey(name);
+        return METHOD_REPOSITORY.containsKey(name);
     }
 
 }

@@ -4,6 +4,7 @@ import cn.cocowwy.suona.annotation.Suona;
 import cn.cocowwy.suona.component.communication.SuonaClient;
 import cn.cocowwy.suona.component.communication.SuonaReceive;
 import cn.cocowwy.suona.context.SuonaContextHolder;
+import cn.cocowwy.suona.enums.CallWayEnum;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -61,7 +62,13 @@ public class SuonaAwareAspect {
 
         // call others 发送消息给集群的所有节点
         if (SuonaContextHolder.doCallOthers()) {
-            suonaClient.callOthers(suona, name);
+            if (suona.callWay().equals(CallWayEnum.SYNC)) {
+                suonaClient.callOthers(suona, name);
+            } else if (suona.callWay().equals(CallWayEnum.ASYNC)) {
+                suonaClient.asyncCallOthers(suona, name);
+            } else {
+                throw new RuntimeException("Error way to use Suona [" + suona.callWay() + "]");
+            }
         }
 
         return proceed;
