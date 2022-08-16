@@ -128,7 +128,7 @@ public class SuonaClient {
 
     public void asyncCallOthers(Suona suona, String name) {
         new Thread(() -> {
-            callOthers(suona, name);
+            this.callOthers(suona, name);
         }).start();
     }
 }
