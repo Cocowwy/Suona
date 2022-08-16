@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * Suona 通讯采用 内嵌HTTP接口的方式
+ * 通过拉取服务IP的列表，来通讯该服务的所有节点
  * @author Cocowwy
  * @create 2022-04-04-22:07
  */
@@ -86,9 +88,9 @@ public class SuonaClient {
                 .collect(Collectors.toList());
 
         // remove local 本地IP不进行节点方法的调用
-        logger.info("ips are :[" + Arrays.toString(urls.toArray()) + "]");
+        logger.info("Suona find ip list is:[" + Arrays.toString(urls.toArray()) + "]");
         urls = urls.stream().filter(u -> !u.contains(localUrl)).collect(Collectors.toList());
-        logger.info("remove local , ips are :[" + Arrays.toString(urls.toArray()) + "]");
+        logger.info("Remove local , this ip list:[" + Arrays.toString(urls.toArray()) + "] will be call");
         HttpEntity<String> request = new HttpEntity<>(msg, HEAEDERS);
         for (String url : urls) {
 
