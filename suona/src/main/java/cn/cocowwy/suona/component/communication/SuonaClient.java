@@ -43,10 +43,10 @@ public class SuonaClient {
     private static final String PATH = "/%s/suona/call";
     private static final String URL_HTTP_PREFIX = "http://";
     private static final String URL_HTTPS_PREFIX = "https://";
-    private static final  RestTemplate REST_TEMPLATE = new RestTemplate();
+    private static final RestTemplate REST_TEMPLATE = new RestTemplate();
     private static
-    final  ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private static final  HttpHeaders HEAEDERS = new HttpHeaders();
+    final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final HttpHeaders HEAEDERS = new HttpHeaders();
     private String serverName;
     private String localUrl;
     private String api;
@@ -126,8 +126,9 @@ public class SuonaClient {
         LOGGER.info("Suona call method [" + name + "] complete");
     }
 
-    @Async
     public void asyncCallOthers(Suona suona, String name) {
-        callOthers(suona, name);
+        new Thread(() -> {
+            callOthers(suona, name);
+        }).start();
     }
 }
