@@ -90,7 +90,7 @@ public class SuonaClient {
         // remove local 本地IP不进行节点方法的调用
         logger.info("Suona find ip list is:[" + Arrays.toString(urls.toArray()) + "]");
         urls = urls.stream().filter(u -> !u.contains(localUrl)).collect(Collectors.toList());
-        logger.info("Remove local , this ip list:[" + Arrays.toString(urls.toArray()) + "] will be call");
+        logger.info("Remove local , this ip list:[" + Arrays.toString(urls.toArray()) + "] will be call [" + name + "]");
         HttpEntity<String> request = new HttpEntity<>(msg, HEAEDERS);
         for (String url : urls) {
 
