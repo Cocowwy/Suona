@@ -20,7 +20,7 @@ public @interface Suona {
      * 一般情况下使用默认的生成策略即可，
      * 默认生成策略为：服务名@BeanName@方法名
      *
-     * Default generation strategy is: service name @Bean Name @ method name
+     * Default generation strategy is: service name @ Bean Name @ method name
      */
     String name() default "";
 

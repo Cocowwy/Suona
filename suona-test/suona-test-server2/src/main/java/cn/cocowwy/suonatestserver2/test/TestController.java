@@ -1,6 +1,7 @@
 package cn.cocowwy.suonatestserver2.test;
 
 import cn.cocowwy.suona.annotation.Suona;
+import cn.cocowwy.suona.enums.CallWayEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -88,5 +89,16 @@ public class TestController {
     @GetMapping("test7")
     public void doubleSuona() {
         testService.sayHi();
+    }
+
+    /**
+     * 测试 异步使用 suona
+     * @throws InterruptedException
+     */
+    @GetMapping("test8")
+    @Suona(callWay = CallWayEnum.ASYNC)
+    public void asyncSuona() throws InterruptedException {
+        Thread.sleep(5000L);
+        System.out.println("done");
     }
 }
