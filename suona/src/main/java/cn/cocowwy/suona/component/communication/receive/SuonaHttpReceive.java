@@ -1,7 +1,9 @@
-package cn.cocowwy.suona.component.communication;
+package cn.cocowwy.suona.component.communication.receive;
 
 
+import cn.cocowwy.suona.component.communication.SuonaReceiver;
 import cn.cocowwy.suona.context.SuonaContextHolder;
+import cn.cocowwy.suona.enums.CommunicateEnum;
 import cn.cocowwy.suona.handler.SuonaExecutor;
 import cn.cocowwy.suona.model.CallBack;
 import cn.cocowwy.suona.model.CallMethods;
@@ -12,22 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 节点通讯：
- * V1：采用内嵌 HTTP 接口的形式进行
+ * 采用内嵌 HTTP 接口的形式进行
  *
  * @author cocowwy.cn
  * @create 2022-04-04-21:01
  */
 @RestController
 @RequestMapping("suona")
-public class SuonaReceive {
+public class SuonaHttpReceive implements SuonaReceiver {
     @PostMapping("call")
     public CallBack call(@RequestBody CallMethods call) {
 
         try {
             suonaBiz(call);
         } catch (Exception exception) {
-            //todo fixme
-
             return new CallBack(Boolean.FALSE);
         } finally {
             SuonaContextHolder.clean();
@@ -49,5 +49,10 @@ public class SuonaReceive {
         SuonaContextHolder.label();
         // 实际执行方法
         SuonaExecutor.execute(call.getName());
+    }
+
+    @Override
+    public CommunicateEnum communicationMode() {
+        return CommunicateEnum.Http;
     }
 }

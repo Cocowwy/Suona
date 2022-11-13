@@ -19,7 +19,6 @@ public @interface Suona {
      * 指定当前方法在节点维度的方法唯一标识名，
      * 一般情况下使用默认的生成策略即可，
      * 默认生成策略为：服务名@BeanName@方法名
-     *
      * Default generation strategy is: service name @ Bean Name @ method name
      */
     String name() default "";
@@ -31,7 +30,7 @@ public @interface Suona {
     String[] url() default {};
 
     /**
-     * SpreadEnum.BROADCAST 模式  调用服务集群内所有节点的该方法
+     * SpreadEnum.BROADCAST 模式  调用服务集群内所有节点的该方法 默认
      * SpreadEnum.NONE      模式  不进行集群同步执行
      */
     SpreadEnum spread() default SpreadEnum.BROADCAST;
@@ -40,7 +39,6 @@ public @interface Suona {
      * 唤醒其余节点的方式
      * SYNC 模式 同步，会等待其余节点RPC结果
      * ASYNC 模式 异步，会异步进行，不等待其余节点响应
-     * @return
      */
     CallWayEnum callWay() default CallWayEnum.SYNC;
 }

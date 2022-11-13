@@ -29,6 +29,11 @@ public class SuonaMethodWrapper extends IMethodHandler {
         this.suona = suona;
     }
 
+    @Override
+    public void before() {
+        return;
+    }
+
     /**
      * 调度 执行
      *
@@ -36,6 +41,8 @@ public class SuonaMethodWrapper extends IMethodHandler {
      */
     @Override
     public void execute() throws InvocationTargetException, IllegalAccessException {
+        before();
+
         Class<?>[] paramTypes = method.getParameterTypes();
         if (paramTypes.length > 0) {
             // method-param can not be primitive-types
@@ -43,5 +50,12 @@ public class SuonaMethodWrapper extends IMethodHandler {
         } else {
             method.invoke(target);
         }
+
+        complete();
+    }
+
+    @Override
+    public void complete() {
+        return;
     }
 }

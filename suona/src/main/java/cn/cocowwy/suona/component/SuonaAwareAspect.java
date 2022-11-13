@@ -2,7 +2,6 @@ package cn.cocowwy.suona.component;
 
 import cn.cocowwy.suona.annotation.Suona;
 import cn.cocowwy.suona.component.communication.SuonaClient;
-import cn.cocowwy.suona.component.communication.SuonaReceive;
 import cn.cocowwy.suona.context.SuonaContextHolder;
 import cn.cocowwy.suona.enums.CallWayEnum;
 import cn.cocowwy.suona.enums.SpreadEnum;
@@ -38,7 +37,6 @@ public class SuonaAwareAspect {
 
     /**
      * 使用切面进行方法监听以及广播操作
-     * {@link SuonaReceive#suonaBiz(cn.cocowwy.suona.model.CallMethods)}
      * 标记当前位接受者
      * {@link cn.cocowwy.suona.context.SuonaContextHolder#doSuonaMethod()}
      * 通过该方法来判断方法是否继续执行，以为被 Suona方法执行后
