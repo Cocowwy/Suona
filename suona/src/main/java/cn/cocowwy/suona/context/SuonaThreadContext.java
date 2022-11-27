@@ -9,7 +9,7 @@ import cn.cocowwy.suona.component.SuonaAwareAspect;
  * @author Cocowwy
  * @create 2022-05-05-20:28
  */
-public class SuonaContext {
+public class SuonaThreadContext {
     /**
      * 是否接收者
      *      默认为发起者，即 false
@@ -18,7 +18,7 @@ public class SuonaContext {
      */
     private Boolean accept;
 
-    public SuonaContext(Boolean accept) {
+    public SuonaThreadContext(Boolean accept) {
         this.accept = accept;
     }
 

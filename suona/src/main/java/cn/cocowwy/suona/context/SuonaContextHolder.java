@@ -6,14 +6,14 @@ package cn.cocowwy.suona.context;
  * @create 2022-04-04-21:26
  */
 public class SuonaContextHolder {
-    public static final ThreadLocal<SuonaContext> SUONA_CONTET = new ThreadLocal<>();
+    public static final ThreadLocal<SuonaThreadContext> SUONA_CONTET = new ThreadLocal<>();
 
     public static void get() {
         SUONA_CONTET.get();
     }
 
     public static void label() {
-        SUONA_CONTET.set(new SuonaContext(true));
+        SUONA_CONTET.set(new SuonaThreadContext(true));
     }
 
     /**
@@ -23,7 +23,7 @@ public class SuonaContextHolder {
     public static Boolean doSuonaMethod() {
         if (SUONA_CONTET.get() == null) {
             // 发送者走切面 故需标记为发起者
-            SUONA_CONTET.set(new SuonaContext(false));
+            SUONA_CONTET.set(new SuonaThreadContext(false));
         }
         return Boolean.TRUE;
     }

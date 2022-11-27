@@ -1,6 +1,7 @@
 package cn.cocowwy.suona.component;
 
 import cn.cocowwy.suona.annotation.Suona;
+import cn.cocowwy.suona.autoconfiguration.SuonaProperties;
 import cn.cocowwy.suona.component.communication.SuonaClient;
 import cn.cocowwy.suona.context.SuonaContextHolder;
 import cn.cocowwy.suona.enums.CallWayEnum;
@@ -9,10 +10,14 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * 用于感知被Suona标注的方法的调用
@@ -23,13 +28,16 @@ import org.springframework.util.StringUtils;
  */
 @Aspect
 @Component
-public class SuonaAwareAspect {
-    @Autowired
-    private SuonaClient suonaClient;
+public class SuonaAwareAspect implements InitializingBean {
     @Autowired
     private ApplicationContext applicationContext;
     @Autowired
     private SuonaHelp suonaHelp;
+    @Autowired
+    private SuonaProperties suonaProperties;
+    @Autowired
+    private List<SuonaClient> communicationsModes;
+    private SuonaClient routeSuonaClient;
 
     @Pointcut("@annotation(cn.cocowwy.suona.annotation.Suona)")
     private void pointcut4Suona() {
@@ -63,14 +71,26 @@ public class SuonaAwareAspect {
         if (SuonaContextHolder.doCallOthers()
                 && SpreadEnum.BROADCAST.equals(suona.spread())) {
             if (suona.callWay().equals(CallWayEnum.SYNC)) {
-                suonaClient.callOthers(suona, name);
+                routeSuonaClient.callOthers(suona, name);
             } else if (suona.callWay().equals(CallWayEnum.ASYNC)) {
-                suonaClient.asyncCallOthers(suona, name);
+                routeSuonaClient.asyncCallOthers(suona, name);
             } else {
                 throw new RuntimeException("Error way to use Suona [" + suona.callWay() + "]");
             }
         }
 
         return proceed;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        Optional<SuonaClient> optionalSuonaClient =
+                communicationsModes.stream().filter(
+                        it -> it.communicationMode().equals(suonaProperties.getCommunicate())
+                ).findFirst();
+        if (!optionalSuonaClient.isPresent()) {
+            throw new IllegalAccessException("Illegal means of communication");
+        }
+        routeSuonaClient = optionalSuonaClient.get();
     }
 }

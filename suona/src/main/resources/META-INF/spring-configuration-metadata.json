@@ -18,6 +18,12 @@
       "type": "java.lang.String",
       "description": "set default mode",
       "defaultValue": "BROADCAST"
+    },
+    {
+      "name": "showdb.communication",
+      "type": "cn.cocowwy.suona.enums.CommunicateEnum",
+      "description": "communication mode",
+      "defaultValue": "Http"
     }
   ]
 }

@@ -13,12 +13,16 @@ public interface SuonaClient extends SuonaCommunicate {
      * @param suona
      * @param name
      */
-    void callOthers(Suona suona, String name);
+    default void callOthers(Suona suona, String name) {
+        throw new RuntimeException("Unimplemented means of communication");
+    }
 
     /**
      * 异步通讯
      * @param suona
      * @param name
      */
-    void asyncCallOthers(Suona suona, String name);
+    default void asyncCallOthers(Suona suona, String name) {
+        throw new RuntimeException("Unimplemented means of communication");
+    }
 }

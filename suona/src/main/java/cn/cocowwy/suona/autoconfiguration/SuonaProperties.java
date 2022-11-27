@@ -1,5 +1,6 @@
 package cn.cocowwy.suona.autoconfiguration;
 
+import cn.cocowwy.suona.enums.CommunicateEnum;
 import cn.cocowwy.suona.enums.SpreadEnum;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -12,6 +13,8 @@ public class SuonaProperties {
     private boolean enable = true;
 
     private String mode = SpreadEnum.BROADCAST.toString();
+
+    private CommunicateEnum communicate = CommunicateEnum.Http;
 
     public boolean isEnable() {
         return enable;
@@ -27,5 +30,13 @@ public class SuonaProperties {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public CommunicateEnum getCommunicate() {
+        return communicate;
+    }
+
+    public void setCommunicate(CommunicateEnum communicate) {
+        this.communicate = communicate;
     }
 }

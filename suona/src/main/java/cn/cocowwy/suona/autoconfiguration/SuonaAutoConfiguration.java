@@ -2,6 +2,9 @@ package cn.cocowwy.suona.autoconfiguration;
 
 import cn.cocowwy.suona.annotation.Suona;
 import cn.cocowwy.suona.component.SuonaHelp;
+import cn.cocowwy.suona.enums.CommunicateEnum;
+import cn.cocowwy.suona.exception.SuonaCommunicationException;
+import cn.cocowwy.suona.exception.SuonaEnvironmentException;
 import cn.cocowwy.suona.handler.IMethodHandler;
 import cn.cocowwy.suona.handler.SuonaExecutor;
 import cn.cocowwy.suona.handler.SuonaMethodWrapper;
@@ -32,19 +35,23 @@ public class SuonaAutoConfiguration implements SmartInitializingSingleton {
     private static final Log LOG = LogFactory.getLog(SuonaAutoConfiguration.class);
     private final ApplicationContext applicationContext;
     private final SuonaHelp suonaHelp;
+    private final SuonaProperties suonaProperties;
 
-    public SuonaAutoConfiguration(ApplicationContext applicationContext, SuonaHelp suonaHelp) {
+    public SuonaAutoConfiguration(ApplicationContext applicationContext, SuonaHelp suonaHelp, SuonaProperties suonaProperties) {
         this.applicationContext = applicationContext;
         this.suonaHelp = suonaHelp;
+        this.suonaProperties = suonaProperties;
         try {
             boolean isWeb = ClassUtils
                     .resolveClassName("org.springframework.web.context.WebApplicationContext",
                             null).isAssignableFrom(applicationContext.getClass());
-            if (!isWeb) {
-                throw new IllegalAccessException();
+
+            if (!isWeb && CommunicateEnum.Http.equals(suonaProperties.getCommunicate())) {
+                throw new SuonaEnvironmentException();
             }
+
         } catch (Exception e) {
-            throw new RuntimeException("Not web environment, Suona cannot be started");
+            throw new SuonaEnvironmentException("Not web environment, Suona cannot be started");
         }
         LOG.debug("Environment check passed");
     }
