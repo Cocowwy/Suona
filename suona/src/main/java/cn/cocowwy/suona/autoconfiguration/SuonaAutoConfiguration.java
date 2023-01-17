@@ -12,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -31,6 +32,7 @@ import java.util.Objects;
 @EnableConfigurationProperties({SuonaProperties.class})
 @ComponentScan({"cn.cocowwy.suona.component", "cn.cocowwy.suona.component.communication"})
 @ConditionalOnProperty(name = "suona.enable", havingValue = "true")
+@ConditionalOnWebApplication
 public class SuonaAutoConfiguration implements SmartInitializingSingleton {
     private static final Log LOG = LogFactory.getLog(SuonaAutoConfiguration.class);
     private final ApplicationContext applicationContext;
@@ -41,18 +43,6 @@ public class SuonaAutoConfiguration implements SmartInitializingSingleton {
         this.applicationContext = applicationContext;
         this.suonaHelp = suonaHelp;
         this.suonaProperties = suonaProperties;
-        try {
-            boolean isWeb = ClassUtils
-                    .resolveClassName("org.springframework.web.context.WebApplicationContext",
-                            null).isAssignableFrom(applicationContext.getClass());
-
-            if (!isWeb && CommunicateEnum.Http.equals(suonaProperties.getCommunicate())) {
-                throw new SuonaEnvironmentException();
-            }
-
-        } catch (Exception e) {
-            throw new SuonaEnvironmentException("Not web environment, Suona cannot be started");
-        }
         LOG.debug("Environment check passed");
     }
 
